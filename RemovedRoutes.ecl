@@ -16,15 +16,15 @@ EtihadAirwaysRoutes_2020 := GsecFiles.GsecDS2020(Carrier = 'EY');
 
 // Layout for Routes
 Route_Layout := RECORD
-  STRING3		Carrier;
+  STRING3	Carrier;
   INTEGER2	FlightNumber;
-  STRING3		DepartStationCode;
-	STRING3   DepartCityCode;
-  STRING2		DepartCountryCode;
-  STRING3		ArriveStationCode;
-	STRING3   ArriveCityCode;
-  STRING2		ArriveCountryCode;
-	INTEGER 	NumOfFlights;
+  STRING3	DepartStationCode;
+  STRING3  	DepartCityCode;
+  STRING2	DepartCountryCode;
+  STRING3	ArriveStationCode;
+  STRING3   	ArriveCityCode;
+  STRING2	ArriveCountryCode;
+  INTEGER 	NumOfFlights;
 END;
 
 // Transform Using Route_Layout So We Only Have Information We Want
@@ -38,9 +38,9 @@ END;
 Aeromexico := JOIN(PROJECT(AeromexicoRoutes_2019, getRoutes(LEFT)), PROJECT(AeromexicoRoutes_2020, getRoutes(LEFT)),
                   	LEFT.DepartCityCode = RIGHT.DepartCityCode AND LEFT.ArriveCityCode = RIGHT.ArriveCityCode, 
                   	TRANSFORM(Route_Layout, 
-                    					SELF := LEFT; 
-                              SELF := RIGHT;
-                             ), LEFT ONLY);
+                    		SELF := LEFT; 
+                                SELF := RIGHT;
+                               ), LEFT ONLY);
 
 Delta := JOIN(PROJECT(DeltaRoutes_2019, getRoutes(LEFT)), PROJECT(DeltaRoutes_2020, getRoutes(LEFT)),
               LEFT.DepartCityCode = RIGHT.DepartCityCode AND LEFT.ArriveCityCode = RIGHT.ArriveCityCode, 
